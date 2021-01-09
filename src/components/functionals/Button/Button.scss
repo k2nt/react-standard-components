@@ -1,0 +1,181 @@
+/**
+* =====!===== DEFAULTS =====!=====
+*
+* Default values for Button component, user can provide custom design
+*/
+
+$button_colors : (
+  'primary'   : #303F9F,
+  'secondary' : #4f4f4f,
+  'safe'      : #00897B,
+  'warning'   : #FFA000,
+  'danger'    : #C62828,
+  'link'      : #673AB7,
+  'accent'    : #ffffff
+) !default;
+
+$button_variants: "primary", "secondary", "safe", "warning", "danger", "link" !default;
+
+$button_sizes: (
+
+  'types': (
+    "large", 
+    "small"
+  ),
+
+  'large': ( 
+    'width': 150px,
+    'min-height': fit-content,
+    'padding': 15px 15px,
+    'font-size': 1.2rem
+  ),
+
+  'small': (
+    'width': 100px,
+    'min-height': fit-content,
+    'padding': 10px 10px,
+    'font-size': 0.9rem
+  ),
+
+  'wrap': (
+    'width': fit-content,
+    'height': fit-content,
+    'padding': 0,
+  )
+) !default;
+
+/**
+* =====!===== STYLESHEETS =====!=====
+*
+* Stylesheet for Button component
+*/
+
+// <-------- default --------> //
+
+.btn {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  align-items: center;
+  justify-content: center;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  outline: none;
+  border-style: solid;
+  cursor : pointer;
+}
+
+// <-------- button-variant --------> //
+
+@mixin button-variant($variant) {
+  .btn--#{$variant} {
+    background: map-get($button_colors, $variant);
+    color: map-get($button-colors, accent);
+  }
+}
+
+@each $variant in $button_variants {
+  @include button-variant($variant);
+}
+
+// <-------- button-fill --------> //
+
+@mixin button-fill($variant) {
+  
+  $variant_classname : unquote('btn--' + $variant);
+
+  .btn[class~=#{$variant_classname}][class~='btn--outline'] {
+    border-width: 2px;
+    box-sizing: border-box;
+    background: transparent;
+    color: map-get($button_colors, $variant);
+
+    &:hover {
+      background: map-get($button_colors, $variant);
+      color: map-get($button-colors, accent);
+      border-color: map-get($button_colors, $variant);
+      transition: 220ms;
+    }
+  }
+
+}
+
+@each $variant in $button_variants {
+  @include button-fill($variant);
+}
+
+.btn--solid {
+
+  &:hover {
+    opacity: 0.8;
+    transition: 220ms;
+  }
+}
+
+// <-------- button-size --------> //
+
+@mixin button-size($size) {
+  .btn--#{$size} {
+    
+    $cur_size : map-get($button_sizes, $size);
+
+    @if map-has-key($cur_size, min-width) {
+      min-width: map-get($cur_size, min-width);
+    }
+
+    @if map-has-key($cur_size, min-height) {
+      min-height: map-get($cur_size, min-height);
+    }
+
+    @if map-has-key($cur_size, max-width) {
+      max-width: map-get($cur_size, max-width);
+    }
+
+    @if map-has-key($cur_size, max-height) {
+      max-height: map-get($cur_size, max-height);
+    }
+
+    @if map-has-key($cur_size, width) {
+      width: map-get($cur_size, width);
+    }
+
+    @if map-has-key($cur_size, width) {
+      width: map-get($cur_size, width);
+    }
+
+    @if map-has-key($cur_size, height) {
+      height: map-get($cur_size, height);
+    }
+
+    @if map-has-key($cur_size, padding) {
+      padding: map-get($cur_size, padding);
+    }
+
+    @if map-has-key($cur_size, font-size) {
+      font-size: map-get($cur_size, font-size); 
+    }
+
+    box-sizing: border-box;
+  }
+}
+
+@each $size in map-get($button_sizes, "types") {
+  @include button-size($size);
+}
+
+// <-------- button-style --------> //
+
+@mixin button-style() {
+  .btn--squared {
+    border-radius: 2px;
+  }
+
+  .btn--rounded {
+    border-radius: 2000px;
+  }
+}
+
+@include button-style();
